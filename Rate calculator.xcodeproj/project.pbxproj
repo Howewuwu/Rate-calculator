@@ -9,21 +9,24 @@
 /* Begin PBXBuildFile section */
 		9C41478A2AE9357300252096 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4147892AE9357300252096 /* AppDelegate.swift */; };
 		9C41478C2AE9357300252096 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C41478B2AE9357300252096 /* SceneDelegate.swift */; };
-		9C41478E2AE9357300252096 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C41478D2AE9357300252096 /* ViewController.swift */; };
 		9C4147912AE9357300252096 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C41478F2AE9357300252096 /* Main.storyboard */; };
 		9C4147932AE9357400252096 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C4147922AE9357400252096 /* Assets.xcassets */; };
 		9C4147962AE9357400252096 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C4147942AE9357400252096 /* LaunchScreen.storyboard */; };
+		9C41479E2AE935AA00252096 /* CalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C41479D2AE935AA00252096 /* CalculatorViewController.swift */; };
+		9C880ED52AEFAABA008992BC /* EXchangeRateAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C880ED42AEFAABA008992BC /* EXchangeRateAPI.swift */; };
+		9C880ED82AEFAB2F008992BC /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 9C880ED72AEFAB2F008992BC /* Alamofire */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		9C4147862AE9357300252096 /* Rate calculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rate calculator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C4147892AE9357300252096 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9C41478B2AE9357300252096 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		9C41478D2AE9357300252096 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		9C4147902AE9357300252096 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9C4147922AE9357400252096 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9C4147952AE9357400252096 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9C4147972AE9357400252096 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9C41479D2AE935AA00252096 /* CalculatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorViewController.swift; sourceTree = "<group>"; };
+		9C880ED42AEFAABA008992BC /* EXchangeRateAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXchangeRateAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C880ED82AEFAB2F008992BC /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,8 +62,9 @@
 			children = (
 				9C4147892AE9357300252096 /* AppDelegate.swift */,
 				9C41478B2AE9357300252096 /* SceneDelegate.swift */,
-				9C41478D2AE9357300252096 /* ViewController.swift */,
 				9C41478F2AE9357300252096 /* Main.storyboard */,
+				9C41479D2AE935AA00252096 /* CalculatorViewController.swift */,
+				9C880ED42AEFAABA008992BC /* EXchangeRateAPI.swift */,
 				9C4147922AE9357400252096 /* Assets.xcassets */,
 				9C4147942AE9357400252096 /* LaunchScreen.storyboard */,
 				9C4147972AE9357400252096 /* Info.plist */,
@@ -83,6 +88,9 @@
 			dependencies = (
 			);
 			name = "Rate calculator";
+			packageProductDependencies = (
+				9C880ED72AEFAB2F008992BC /* Alamofire */,
+			);
 			productName = "Rate calculator";
 			productReference = 9C4147862AE9357300252096 /* Rate calculator.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +119,9 @@
 				Base,
 			);
 			mainGroup = 9C41477D2AE9357300252096;
+			packageReferences = (
+				9C880ED62AEFAB2F008992BC /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = 9C4147872AE9357300252096 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -138,8 +149,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9C41478E2AE9357300252096 /* ViewController.swift in Sources */,
 				9C41478A2AE9357300252096 /* AppDelegate.swift in Sources */,
+				9C880ED52AEFAABA008992BC /* EXchangeRateAPI.swift in Sources */,
+				9C41479E2AE935AA00252096 /* CalculatorViewController.swift in Sources */,
 				9C41478C2AE9357300252096 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -363,6 +375,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9C880ED62AEFAB2F008992BC /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.8.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9C880ED72AEFAB2F008992BC /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9C880ED62AEFAB2F008992BC /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9C41477E2AE9357300252096 /* Project object */;
 }
