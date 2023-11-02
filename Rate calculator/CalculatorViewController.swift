@@ -88,22 +88,22 @@ class CalculatorViewController: UIViewController {
         // 從按鈕的標題中獲取數字的文字
         if let numberText = sender.titleLabel?.text {
             
-            // 檢查是否需要使用上一次計算的結果
-            if let lastResult = lastResult, calculationElements.isEmpty {
-                
-                // 更新結果標籤並將上一次的結果添加到計算元素陣列中
-                resultALabel.text = "\(lastResult)"
-                calculationElements.append("\(lastResult)")
-            }
+            //            // 檢查是否需要使用上一次計算的結果
+            //            if let lastResult = lastResult, calculationElements.isEmpty {
+            //
+            //                // 更新結果標籤並將上一次的結果添加到計算元素陣列中
+            //                resultALabel.text = "\(lastResult)"
+            //                calculationElements.append("\(lastResult)")
+            //            }
             
             // 更新用戶界面以及計算元素陣列
             if resultALabel.text == "0" || resultALabel.text == "" {
                 resultALabel.text = numberText
             } else {
                 // 確保顯示的數字不超過九位
-                if resultALabel.text!.count < 9 {
-                    resultALabel.text! += numberText
-                }
+                //                if resultALabel.text!.count < 9 {
+                resultALabel.text! += numberText
+                //                }
             }
             calculationElements.append(numberText)
         }
@@ -111,6 +111,17 @@ class CalculatorViewController: UIViewController {
         // 一旦按下數字，設置 isFirstOperation 為 false
         isFirstOperation = false
         print("calculationElements: \(calculationElements)")
+        
+        // 檢查當前輸入中的小數點和運算符的數量
+        if let currentText = resultALabel.text, !currentText.isEmpty {
+            let dotCount = currentText.filter { $0 == "." }.count
+            let operatorCount = currentText.filter { "+−×÷".contains($0) }.count
+            
+            // 只有當小數點的數量小於或等於運算符的數量時，才允許添加新的小數點
+            if dotCount <= operatorCount {
+                canAddDot = true
+            }
+        }
     }
     
     
@@ -126,18 +137,19 @@ class CalculatorViewController: UIViewController {
         
         // 從按鈕的標題中獲取操作符的文字
         if let operation = sender.titleLabel?.text {
+            
             // 檢查是否需要使用上一次的結果
-            if let lastResult = lastResult, calculationElements.isEmpty {
-                if floor(lastResult) == lastResult {
-                    // 如果上一次的結果是整數，則轉為 Int 顯示
-                    resultALabel.text = "\(Int(lastResult))"
-                    calculationElements.append("\(Int(lastResult))")
-                } else {
-                    // 如果上一次的結果是小數，則直接顯示
-                    resultALabel.text = "\(lastResult)"
-                    calculationElements.append("\(lastResult)")
-                }
-            }
+            //            if let lastResult = lastResult, calculationElements.isEmpty {
+            //                if floor(lastResult) == lastResult {
+            //                    // 如果上一次的結果是整數，則轉為 Int 顯示
+            //                    resultALabel.text = "\(Int(lastResult))"
+            //                    calculationElements.append("\(Int(lastResult))")
+            //                } else {
+            //                    // 如果上一次的結果是小數，則直接顯示
+            //                    resultALabel.text = "\(lastResult)"
+            //                    calculationElements.append("\(lastResult)")
+            //                }
+            //            }
             
             // 更新結果標籤和計算元素陣列
             if resultALabel.text != "" {
@@ -173,11 +185,6 @@ class CalculatorViewController: UIViewController {
                 resultText = "\(result)"
             }
             
-            // 檢查以確保結果不超過九位
-            if resultText.count > 9 {
-                let index = resultText.index(resultText.startIndex, offsetBy: 9)
-                resultText = String(resultText[..<index])
-            }
             
             // 更新 resultALabel 的文本
             resultALabel.text = resultText
@@ -223,29 +230,39 @@ class CalculatorViewController: UIViewController {
     
     // 定義小數點按鈕被按下時的行為
     @IBAction func dotPressed(_ sender: UIButton) {
-        
         // 檢查是否可以添加小數點
         if canAddDot {
-            
             // 在結果標籤和計算元素陣列中添加小數點
             resultALabel.text! += "."
             calculationElements.append(".")
-            
             // 一旦添加了小數點，禁止再次添加
             canAddDot = false
+        }
+        
+        // 檢查當前輸入中的小數點和運算符的數量
+        if let currentText = resultALabel.text, !currentText.isEmpty {
+            let dotCount = currentText.filter { $0 == "." }.count
+            let operatorCount = currentText.filter { "+−×÷".contains($0) }.count
+            
+            // 只有當小數點的數量小於或等於運算符的數量時，才允許添加新的小數點
+            if dotCount <= operatorCount {
+                canAddDot = true
+            }
         }
     }
     
     
     
     
+    
     // 定義百分比按鈕被按下時的行為
     @IBAction func percentPressed(_ sender: UIButton) {
-        // 檢查當前文本是否存在，並且長度是否小於或等於9，然後嘗試將其轉換為Double類型
-        if let currentText = resultALabel.text, currentText.count <= 9, let currentValue = Double(currentText) {
+        // 檢查當前文本是否存在，然後嘗試將其轉換為Double類型
+        if let currentText = resultALabel.text, let currentValue = Double(currentText) {
             // 計算百分比值
             let percentValue = currentValue / 100.0
             var resultText: String
+            
             if floor(percentValue) == percentValue {
                 // 如果結果是整數
                 resultText = "\(Int(percentValue))"
@@ -265,27 +282,33 @@ class CalculatorViewController: UIViewController {
     
     // 定義後退按鈕被按下時的行為
     @IBAction func backward(_ sender: UIButton) {
-        // 如果 calculationElements 是空的，則表示剛完成一個運算
-        // 這時候使用 lastResult 來初始化它
-        if calculationElements.isEmpty, let lastResult = lastResult {
-            let resultText = floor(lastResult) == lastResult ? "\(Int(lastResult))" : "\(lastResult)"
-            calculationElements = [resultText]
-            resultALabel.text = resultText
-        }
+        
+        // 如果 calculationElements 是空的則返回
+        if calculationElements.isEmpty { return }
+        
+        
         
         // 獲取當前在 resultALabel 上顯示的數字
         if var currentText = resultALabel.text, !currentText.isEmpty {
-            
-            // 如果數字中包含小數點，則允許再次添加小數點
-            if currentText.contains(".") {
-                canAddDot = true
-            }
             
             // 刪除最後一個字符
             currentText.removeLast()
             
             // 更新 resultALabel 的文字
             resultALabel.text = currentText.isEmpty ? "0" : currentText
+            
+            
+            // 檢查當前輸入中的小數點和運算符的數量
+            if let currentText = resultALabel.text, !currentText.isEmpty {
+                let dotCount = currentText.filter { $0 == "." }.count
+                let operatorCount = currentText.filter { "+−×÷".contains($0) }.count
+                
+                // 只有當小數點的數量小於或等於運算符的數量時，才允許添加新的小數點
+                if dotCount <= operatorCount {
+                    canAddDot = true
+                }
+            }
+            
             
             // 更新 calculationElements
             if let lastElement = calculationElements.last, lastElement.count > 1 {
@@ -336,6 +359,16 @@ class CalculatorViewController: UIViewController {
             // 將計算結果四捨五入到小數點後三位
             let roundedConvertedResult = Double(String(format: "%.3f", convertedResult)) ?? convertedResult
             resultBLabel.text = String(roundedConvertedResult)
+        }
+        
+        // 更新匯率信息標籤
+        if let currencyA = CurrencyALabel.text, let currencyB = CurrencyBLabel.text {
+            if let rateA = exchangeRates?[currencyA], let rateB = exchangeRates?[currencyB] {
+                let convertedRate = (1.0 / rateA) * rateB
+                DispatchQueue.main.async {
+                    self.exchangeInfoLabel.text = "1 \(currencyA) = \(String(format: "%.3f", convertedRate)) \(currencyB)"
+                }
+            }
         }
     }
     
@@ -401,6 +434,7 @@ class CalculatorViewController: UIViewController {
         let todayDate = formatter.string(from: date)
         todayDateLabel.text = todayDate
         
+        
         // 發起網絡請求來獲取匯率數據
         fetchExchangeRates { (exchangeRateResponse, error) in
             if let error = error {
@@ -416,7 +450,7 @@ class CalculatorViewController: UIViewController {
             if let rateA = exchangeRates?[currencyA], let rateB = exchangeRates?[currencyB] {
                 let convertedRate = (1.0 / rateA) * rateB
                 DispatchQueue.main.async {
-                    self.exchangeInfoLabel.text = "1 \(currencyA) = \(convertedRate) \(currencyB)"
+                    self.exchangeInfoLabel.text = "1 \(currencyA) = \(String(format: "%.3f", convertedRate)) \(currencyB)"
                 }
             }
         }

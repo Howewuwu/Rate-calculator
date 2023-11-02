@@ -63,10 +63,10 @@
 				9C4147892AE9357300252096 /* AppDelegate.swift */,
 				9C41478B2AE9357300252096 /* SceneDelegate.swift */,
 				9C41478F2AE9357300252096 /* Main.storyboard */,
+				9C4147942AE9357400252096 /* LaunchScreen.storyboard */,
 				9C41479D2AE935AA00252096 /* CalculatorViewController.swift */,
 				9C880ED42AEFAABA008992BC /* EXchangeRateAPI.swift */,
 				9C4147922AE9357400252096 /* Assets.xcassets */,
-				9C4147942AE9357400252096 /* LaunchScreen.storyboard */,
 				9C4147972AE9357400252096 /* Info.plist */,
 			);
 			path = "Rate calculator";
