@@ -344,32 +344,7 @@ class CalculatorViewController: UIViewController {
         CurrencyALabel.text = CurrencyBLabel.text
         CurrencyBLabel.text = tempCurrency
         
-        // Step 2: 使用新的匯率重新計算
-        // 讀取目前 A 貨幣和 B 貨幣的值，並進行匯率轉換
-        if let resultA = Double(resultALabel.text ?? "0"),
-           let currencyA = CurrencyALabel.text,
-           let currencyB = CurrencyBLabel.text,
-           let rateA = exchangeRates?[currencyA],
-           let rateB = exchangeRates?[currencyB] {
-            
-            // 進行匯率計算
-            let convertedResult = (resultA / rateA) * rateB
-            
-            // 只顯示到小數點後三位
-            // 將計算結果四捨五入到小數點後三位
-            let roundedConvertedResult = Double(String(format: "%.3f", convertedResult)) ?? convertedResult
-            resultBLabel.text = String(roundedConvertedResult)
-        }
-        
-        // 更新匯率信息標籤
-        if let currencyA = CurrencyALabel.text, let currencyB = CurrencyBLabel.text {
-            if let rateA = exchangeRates?[currencyA], let rateB = exchangeRates?[currencyB] {
-                let convertedRate = (1.0 / rateA) * rateB
-                DispatchQueue.main.async {
-                    self.exchangeInfoLabel.text = "1 \(currencyA) = \(String(format: "%.3f", convertedRate)) \(currencyB)"
-                }
-            }
-        }
+        updateExchangeRate()
     }
     
     
@@ -445,15 +420,7 @@ class CalculatorViewController: UIViewController {
             }
         }
         
-        // 更新匯率信息標籤
-        if let currencyA = CurrencyALabel.text, let currencyB = CurrencyBLabel.text {
-            if let rateA = exchangeRates?[currencyA], let rateB = exchangeRates?[currencyB] {
-                let convertedRate = (1.0 / rateA) * rateB
-                DispatchQueue.main.async {
-                    self.exchangeInfoLabel.text = "1 \(currencyA) = \(String(format: "%.3f", convertedRate)) \(currencyB)"
-                }
-            }
-        }
+        updateExchangeRate()
     }
     
     
@@ -473,10 +440,14 @@ class CalculatorViewController: UIViewController {
             let roundedConvertedResult = Double(String(format: "%.3f", convertedResult)) ?? convertedResult
             resultBLabel.text = String(roundedConvertedResult)
             
-            // 也更新匯率信息標籤
-            let convertedRate = (1.0 / rateA) * rateB
-            DispatchQueue.main.async {
-                self.exchangeInfoLabel.text = "1 \(currencyA) = \(convertedRate) \(currencyB)"
+            // 更新匯率信息標籤
+            if let currencyA = CurrencyALabel.text, let currencyB = CurrencyBLabel.text {
+                if let rateA = exchangeRates?[currencyA], let rateB = exchangeRates?[currencyB] {
+                    let convertedRate = (1.0 / rateA) * rateB
+                    DispatchQueue.main.async {
+                        self.exchangeInfoLabel.text = "1 \(currencyA) = \(String(format: "%.3f", convertedRate)) \(currencyB)"
+                    }
+                }
             }
         }
     }
